@@ -1,0 +1,12 @@
+This application is primarily developed in Laravel (https://laravel.com/).
+Laravel is licensed under MIT license.
+
+The application also uses some other 3rd party libraries, as listed below:
+We have been inspired to tablulate third party softwares in this way from Dolibarr (https://github.com/Dolibarr/dolibarr)
+
+
+--------------------------------------------------------------------------------------------------------------
+SL  Library         Library Link             Version   License           License Link
+--------------------------------------------------------------------------------------------------------------
+1   jQuery          https://jquery.com       3.6.0     MIT               https://github.com/jquery/jquery/blob/master/LICENSE.txt
+2   Toastr          https://jqueryui.com/    2.1.4     MIT               https://github.com/CodeSeven/toastr/blob/master/LICENSE

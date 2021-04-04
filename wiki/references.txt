@@ -1,0 +1,10 @@
+1. Laravel Excel package installation
+    https://docs.laravel-excel.com/3.1/getting-started/installation.html
+
+2. Upload files
+    https://laravel.com/docs/8.x/filesystem
+    https://laracasts.com/discuss/channels/laravel/how-direct-upload-file-in-storage-folder
+
+3. Retrieving stored files
+    https://laravel.com/docs/5.3/filesystem
+    
