@@ -13,11 +13,11 @@ This is a customized web application to demonstrate bulk data insert (from Excel
 
 ## Please check the wiki folder in project root for various documentation related to the initial design of this application.
 ---- Inside the wiki folder I have tried to credit authors whenever I used some code snippets from online blogs / tutorials, etc.
------- 1.
 
 
 ## Running the application
 1. Please change the post_max_size and upload_max_filesize values in php.ini to support 42 MB or greater file size
+2. Uploaded files are stored in "\storage\app\public\uploads". This is specified in UploadController.php, line 34
 
 
 ## Dataset attribution
