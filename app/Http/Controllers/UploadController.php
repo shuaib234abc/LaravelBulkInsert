@@ -23,10 +23,12 @@ class UploadController extends Controller
     {
         /*
         References:
+        
         1.https://stackoverflow.com/questions/32718870/how-to-get-all-input-of-post-in-laravel
         2.https://www.tutsmake.com/laravel-8-crud-example-tutorial/
         3.https://laracasts.com/discuss/channels/laravel/base64-to-upload-image
         */
+
 
         $data = $request->bigstring;
         $data = json_decode($data);
@@ -44,7 +46,7 @@ class UploadController extends Controller
         foreach($chunks as $c){
           Person::insert($c->toArray());            //ref: https://stackoverflow.com/questions/12702812/bulk-insertion-in-laravel-using-eloquent-orm
         }
-        
+
         $output = new \stdClass();
         $output->statusText = "Data has been uploaded successfully";
         $output->insertCount = count($final_data);
