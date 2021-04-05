@@ -7,4 +7,6 @@
 
 3. Retrieving stored files
     https://laravel.com/docs/5.3/filesystem
-    
+
+4. Making sequential AJAX calls
+    https://www.webniraj.com/2018/10/08/making-ajax-calls-sequentially-using-jquery/

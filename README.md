@@ -1,6 +1,14 @@
 # Bulk Insert
 
-This is a customized web application to demonstrate bulk data insert (from Excel file) in Laravel.
+- This is a customized Laravel web application to demonstrate bulk data insert (from Excel file) in Laravel.
+- Here, I demonstrate inserting 4,347,668 records into a MySQL DB.
+- Time taken: around 1.6 minutes
+- Method:
+-- A text file is uploaded by the user into the HTML form.
+-- Using javascript the file is parsed and the content is divided into chunks.
+-- Each chunk is sent as an array to backend
+-- In backend, the data is further chunked and inserted to DB (Further chunking is needed because Laravel Eloquent ORM has issues inserting 500000 data at once)
+-- From the client side, jQuery AJAX is used to send the individual chunks. The calls are all made synchronously and sequentially, because otherwise the server can be overloaded.
 
 
 ## Following libraries have been used in this applications
@@ -18,12 +26,19 @@ This is a customized web application to demonstrate bulk data insert (from Excel
 ## Running the application
 1. Please change the post_max_size and upload_max_filesize values in php.ini to support 42 MB or greater file size
 2. Uploaded files are stored in "\storage\app\public\uploads". This is specified in UploadController.php, line 34
+3. Make sure to run "php artisan migrate" to set up the database. You must have MySQL installed.
+4. No data is required in the DB.
 
 
 ## Branch information
 1. feature/straightforward : This branch demonstrates straight forward bulk insert approach. The code here failed for a input file of around 40 MB.
 2. feature/optimized_for_large_file : This branch demonstrates a way to insert data in very large files.
 3. master : same as branch 2
+
+
+## How to improve this solution?
+1. Upload the entire file "as a file" to backend and use Laravel Queues / Laravel Scheduled Tasks for processing in the background. I did not utilize this because it requires some OS level / server level configurations, and I wanted my solution to be standalone.
+2. Include a "batch number" numeric field in the database. Batch number will be the same for all chunks sent from the client side. If all data is not successfully inserted, a delete query will be performed by batch number. (This is a kind of custom transaction)
 
 
 ## Dataset attribution
