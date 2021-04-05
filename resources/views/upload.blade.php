@@ -55,7 +55,8 @@
                           <div class="row">
                             <div class="col-xs-4">
                               <div class="form-group">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button id="btn_submit" type="submit" class="btn btn-success">Submit</button>
+                                <div id="divMessage"></div>
                               </div>
                             </div>
                           </div>
@@ -76,6 +77,21 @@
         var formHandler = document.getElementById('this-form');
         var fileInputElem = document.getElementById('file');
         var fileToUpload = null;
+        var arrayOfArrays = [];
+        var chunk = 500000;
+        var totalToInsert = 0;
+        var totalInsertedUptoNow = 0;
+        var timeStarted = null;
+        var timeEnded = null;
+
+        var showMessage = function(msg, firstTime){
+          var h = "";
+          if(!firstTime) h = $("#divMessage").html();
+          h += msg;
+          h += "<br />";
+          $("#divMessage").html(h);
+          toastr.success(msg, "Info");
+        }
 
         //references: https://laracasts.com/discuss/channels/laravel/how-to-fix-csrf-token-mismatch-for-patch-ajax-request-2nd-time
         $.ajaxSetup({
@@ -91,22 +107,78 @@
         });
 
         formHandler.addEventListener('submit', function (event) {
+
+          $("#btn_submit").css("display","none");
+          showMessage("Data is being inserted. Please wait.", true);
+
           event.preventDefault();
 
-          var formData = new FormData();
-          formData.set('file', fileToUpload);
+          var i,j,temparray;
 
-          jQuery.ajax({
-            type: "POST",
-            url: window.location.href,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(result){
-              toastr.success('Data has been uploaded successfully.', 'Info')
+          //ref: https://stackoverflow.com/questions/23331546/how-to-use-javascript-to-read-local-text-file-and-read-line-by-line
+          var reader = new FileReader();
+          reader.onload = function(progressEvent){
+
+            var lines = this.result.split('\n');
+            totalToInsert = lines.length;
+
+            //ref: https://stackoverflow.com/questions/8495687/split-array-into-chunks
+            for (i=0,j=lines.length; i<j; i+=chunk) {
+                temparray = lines.slice(i,i+chunk);
+                arrayOfArrays.push(temparray);
             }
-          });
-        });
+
+            //the following code has been taken from https://www.webniraj.com/2018/10/08/making-ajax-calls-sequentially-using-jquery/
+            ////////////////////// /////////////////////////////////// //////////////////////////////////////
+            var ajax_request = function(item) {
+                var deferred = $.Deferred();
+                var formData = new FormData();
+
+                //console.log("Initiating AJAX call");
+                //console.log(item);
+
+                formData.set("bigstring", JSON.stringify(item));
+
+                $.ajax({
+                  type: "POST",
+                  url: window.location.href,
+                  data: formData,
+                  processData: false,
+                  contentType: false,
+                  success: function(data) {
+                    //console.log("Response from ajax call: " + data);
+                    totalInsertedUptoNow += data.insertCount;
+                    var message = totalInsertedUptoNow + " out of " + totalToInsert + " data added successfully. " + (((totalInsertedUptoNow / totalToInsert) * 100).toFixed(2)) + " percent completed.";
+                    showMessage(message, false);
+                    deferred.resolve(data);  // mark the ajax call as completed
+                  },
+                  error: function(error) {
+                    deferred.reject(error); // mark the ajax call as failed
+                  }
+                });
+
+                return deferred.promise();
+            };
+
+            var looper = $.Deferred().resolve();
+            timeStarted = new Date();
+
+            $.when.apply($, $.map(arrayOfArrays, function(item, i) {      // go through each item and call the ajax function
+              looper = looper.then(function() {
+                return ajax_request(item);    // trigger ajax call with item data
+              });
+              return looper;
+            })).then(function() {
+              showMessage('All data has been inserted successfully.', false);       // run this after all ajax calls have completed
+              timeEnded = new Date();
+              var timeDiff = ((timeEnded - timeStarted) / (1000 * 60)).toFixed(2);
+              showMessage("Time taken : " + timeDiff + " minutes.", false);
+            });
+            //////////////////////// ///////////////////////////////// //////////////////////////////////////
+          };      //end of reader.onload = function(progressEvent){ }
+          reader.readAsText(fileToUpload);
+
+        });     // end of formHandler.addEventListener('submit', function (event) { }
 
       });
 
