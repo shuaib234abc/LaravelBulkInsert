@@ -4,11 +4,11 @@
 - Here, I demonstrate inserting 4,347,668 records into a MySQL DB.
 - Time taken: around 1.6 minutes
 - Method:
--- A text file is uploaded by the user into the HTML form.
--- Using javascript the file is parsed and the content is divided into chunks.
--- Each chunk is sent as an array to backend
--- In backend, the data is further chunked and inserted to DB (Further chunking is needed because Laravel Eloquent ORM has issues inserting 500000 data at once)
--- From the client side, jQuery AJAX is used to send the individual chunks. The calls are all made synchronously and sequentially, because otherwise the server can be overloaded.
+- 1. A text file is uploaded by the user into the HTML form.
+- 2. Using javascript the file is parsed and the content is divided into chunks.
+- 3. Each chunk is sent as an array to backend
+- 4. In backend, the data is further chunked and inserted to DB (Further chunking is needed because Laravel Eloquent ORM has issues inserting 500000 data at once)
+- 5. From the client side, jQuery AJAX is used to send the individual chunks. The calls are all made synchronously and sequentially, because otherwise the server can be overloaded.
 
 
 ## Following libraries have been used in this applications
