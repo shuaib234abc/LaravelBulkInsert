@@ -1,6 +1,6 @@
 # Bulk Insert
 
-- This is a customized Laravel web application to demonstrate bulk data insert (from Excel file) in Laravel.
+- This is a customized Laravel web application to demonstrate bulk data insert (from text file) in Laravel.
 - Here, I demonstrate inserting 4,347,668 records into a MySQL DB.
 - Time taken: around 1.6 minutes
 - Method:
