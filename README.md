@@ -13,7 +13,6 @@
 
 ## Following libraries have been used in this applications
 1. Laravel 8.12 ( https://laravel.com/ ) ... MIT license
-2. Laravel Excel 3.1.29 (https://laravel-excel.com/) ... MIT license
 3. jQuery 3.6.0 (https://jquery.com/) ... MIT license
 4. Toastr 2.1.4 (https://github.com/CodeSeven/toastr) ... MIT license
 5. For UI / UX design, I have taken CoreUI v3.2.0 (Bootstrap 4 Admin template, https://coreui.io)
@@ -24,10 +23,12 @@
 
 
 ## Running the application
-1. Please change the post_max_size and upload_max_filesize values in php.ini to support 42 MB or greater file size
-2. Uploaded files are stored in "\storage\app\public\uploads". This is specified in UploadController.php, line 34
-3. Make sure to run "php artisan migrate" to set up the database. You must have MySQL installed.
-4. No data is required in the DB.
+1. Navigate to project directory and run 'composer update' ... (Composer must be installed for this)
+2. Copy .env.example to .env and make changes as necessary to database settings
+3. Run 'php artisan key:generate'
+4. Uploaded files are stored in "\storage\app\public\uploads". This is specified in UploadController.php, line 34
+5. Make sure to run "php artisan migrate" to set up the database. You must have MySQL installed.
+6. No data is required in the DB.
 
 
 ## Branch information
